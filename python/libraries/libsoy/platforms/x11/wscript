@@ -1,0 +1,39 @@
+# encoding: utf-8
+
+def configure(conf):
+    conf.check_cfg(package='x11', uselib_store='X11',
+                   mandatory=True, args='--cflags --libs')
+
+    conf.check_cfg(package='xi', uselib_store='XI',
+                   mandatory=True, args='--cflags --libs')
+
+    conf.check_cfg(package='xxf86vm', uselib_store='XXF86VM',
+                   mandatory=True, args='--cflags --libs')
+
+    conf.check_cfg(package='egl', uselib_store='EGL',
+                   mandatory=True, args='--cflags --libs')
+
+    conf.check_cfg(package='glesv2', uselib_store='GL',
+                   mandatory=True, args='--cflags --libs')
+    conf.env['GLES_AVAILABLE'] = 1
+
+
+def build(bld):
+    bld(features     = 'c cshlib',
+        name         = 'soy-x11-1',
+        target       = 'soy-x11',
+        pkg_name     = 'soy-x11',
+        use          = 'soy-1',
+        source       = bld.path.ant_glob('*.gs'),
+        uselib       = ['DBUS_GLIB', 'GEE', 'RSVG', 'LM', 'NICE', 'GL',
+                        'ODE', 'X11', 'XI', 'XXF86VM', 'EGL'],
+        packages = ['config', 'gee-0.8', 'dbus-glib-1',
+                    'gles-2.0', 'cairo', 'gdk-pixbuf-2.0', 'librsvg-2.0',
+                    'ode-0.11', 'posix', 'loudmouth-1.0', 'nice',
+                    'libusb', 'x11', 'egl', 'posix'],
+        vapi_dirs    = ['../../vapi', '../../build/src'],
+        includes     = '../../include',
+        cflags       = ['-include', 'config.h', '-DGL_GLEXT_PROTOTYPES', '-g'],
+        vala_defines = bld.env.VALA_DEFINES
+    )
+

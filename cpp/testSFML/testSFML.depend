@@ -1,0 +1,37 @@
+# depslib dependency file v1.0
+1427313451 source:/home/jeff/Documents/Programming/cpp/testSFML/main.cpp
+	"Game.h"
+
+1427313061 source:/home/jeff/Documents/Programming/cpp/testSFML/src/Actor.cpp
+	"Actor.h"
+
+1427313180 /home/jeff/Documents/Programming/cpp/testSFML/include/Actor.h
+	<SFML/Graphics.hpp>
+
+1427467488 source:/home/jeff/Documents/Programming/cpp/testSFML/src/Game.cpp
+	"Game.h"
+
+1427313410 /home/jeff/Documents/Programming/cpp/testSFML/include/Game.h
+	"Game.h"
+	"Player.h"
+	"Sound.h"
+	"Window.h"
+
+1427309247 /home/jeff/Documents/Programming/cpp/testSFML/include/Player.h
+	<Actor.h>
+
+1427313209 /home/jeff/Documents/Programming/cpp/testSFML/include/Sound.h
+	<SFML/Audio.hpp>
+
+1427481712 /home/jeff/Documents/Programming/cpp/testSFML/include/Window.h
+	<SFML/Graphics.hpp>
+
+1427309419 source:/home/jeff/Documents/Programming/cpp/testSFML/src/Player.cpp
+	"Player.h"
+
+1427313076 source:/home/jeff/Documents/Programming/cpp/testSFML/src/Sound.cpp
+	"Sound.h"
+
+1427309528 source:/home/jeff/Documents/Programming/cpp/testSFML/src/Window.cpp
+	"Window.h"
+

@@ -1,0 +1,170 @@
+libsoy Installation Guide
+=========================
+This guide is for users compiling libsoy from Mercurial.
+
+Releases source tarballs have nearly the same installation instructions except
+valac and liborc are not dependencies as the .c and .s files are included.
+
+Dependencies
+------------
+You'll want to make sure these are installed before proceeding::
+
+  valac         >= 0.18.0
+  glib          >= 2.32.0
+  libgee        >= 0.8.0
+  librsvg       >= 2.36.0
+  libGLESv2     >= 2.0
+  libode        == 0.11
+
+Optional (for building with --platform=gtk flag)
+  gtk3          >= 3.0
+
+Easy copy/paste directions can be found below for installing these for most
+popular distributions.
+
+-------------------------------------------------------------------------------
+
+Arch Linux Quickstart
+~~~~~~~~~~~~~~~~~~~~~
+
+Just install libsoy-hg from the AUR. You either download the source tarball,
+or you install it using a AUR wrapper like yaourt:
+ yaourt -S libsoy-hg
+
+You can also install pysoy-hg from AUR.
+
+Source tarball can be found here:
+http://aur.archlinux.org/packages.php?ID=47781
+
+-------------------------------------------------------------------------------
+
+Fedora Quickstart
+~~~~~~~~~~~~~~~~~
+
+On Fedora 20::
+
+ sudo yum install vala ode-devel libgee-devel gcc dbus-glib-devel librsvg2-devel \
+                  loudmouth-devel libnice-devel libXi-devel \
+				  mesa-libGLES-devel
+
+------------------------------------------------------------------------------
+
+Gentoo Quickstart
+~~~~~~~~~~~~~~~~~
+
+ sudo emerge vala =dev-games/ode-0.11.1 libgee:0
+
+------------------------------------------------------------------------------
+
+Ubuntu Quickstart
+~~~~~~~~~~~~~~~~~
+
+On Ubuntu 14.04::
+
+ # install dependencies
+ sudo apt-get install valac libgee-0.8-dev libdbus-glib-1-dev librsvg2-dev \
+                      libgles2-mesa-dev libode-dev \
+                      libxi-dev \
+                      libloudmouth1-dev libnice-dev build-essential
+
+ # add /usr/local/lib to library and pkg-config path
+ echo >>~/.bashrc export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
+ echo >>~/.bashrc export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+ source ~/.bashrc
+
+------------------------------------------------------------------------------
+
+Windows Quickstart
+~~~~~~~~~~~~~~~~~~
+
+The following package are necessary in order to start compiling on Windows.
+
+- Python 3 (http://python.org/download)
+  - Required by ./waf
+- MinGW with MSys (http://www.mingw.org)
+  - Compiler we will be using
+
+Libsoy has many dependencies that are not trivial to compile on Windows.  For your convenience there is a .zip containing prebuilt binaries for those dependencies.  Consult the README file in that archive for instructions on installing them with MinGW.
+Link to the .zip file with the dependencies:
+     http://www.pysoy.org/releases/libsoy-1.0beta3-win32-deps.zip
+
+With the MinGW shell, execute the following commands in the libsoy directory:
+
+  ./waf configure --check-c-compiler=gcc
+  ./waf build
+
+soy.h and soy.dll will now be available in the build directory.
+
+------------------------------------------------------------------------------
+
+Compiling
+=========
+
+If you're reading this you've already downloaded libSoy.  If you have all
+the dependencies installed you should, now, be able to type:
+
+  ./waf configure
+  ./waf build
+
+and watch it compile.  Any compile errors not linked to a missing
+dependency should be reported to our bug tracker (below).
+
+If everything has gone well you can now install the libSoy with:
+  sudo ./waf install
+
+
+-------------------------------------------------------------------------------
+
+Updating
+========
+
+If you've installed from Mercurial you should be able to update your version
+by changing to this directory and running:
+  hg pull -u
+
+Then repeat the compile steps (above).
+
+
+-------------------------------------------------------------------------------
+
+Testing
+=======
+
+libsoy uses the Waf build system, which consists of a bunch of wscript files
+which contain build information (written in Python).
+
+The testing framework consists of multiple Genie scripts situated in tests/
+that are compiled and run when the --runtests option is specified:
+  ./waf build --runtests
+
+To build a unit test, add a bld invocation in tests/wscript_build, like so:
+
+ skg2png = bld(
+     features = 'c cprogram test',
+     name         = 'skg2png',
+     target       = 'skg2png',
+     source       = 'skg2pngTest.gs',
+     use          = 'soy',
+     packages     = 'soy',
+     vapi_dirs    = '../src ../vapi',
+     includes     = '../include',
+     threading    = True,
+ )
+
+Compiled tests can be found in build/tests. When tests are built, their output
+is not shown, so instead you must run the test individually.
+
+-------------------------------------------------------------------------------
+
+Bug Reporting
+=============
+
+There's a "New Ticket" link at the top of http://pysoy.org/ for reporting
+bugs.  You'll need to login to access it, registration should be quick
+and painless while helping us cut down on ticket spam and making it
+easier for us to contact you for more information.
+
+Please select the correct version when filing bug reports and, if
+building from Mercurial, mention the revision number and/or date of last
+update when writing your report.  This is very useful to us.
+

@@ -1,0 +1,158 @@
+# project  configured on Tue Mar 10 09:43:50 2015 by
+# waf 1.8.0 (abi 98, python 30400f0 on linux)
+# using waf configure build
+#
+----------------------------------------
+Setting top to
+/home/jeff/Documents/libraries/pysoy
+----------------------------------------
+Setting out to
+/home/jeff/Documents/libraries/pysoy/build
+----------------------------------------
+Checking for 'gcc' (C compiler)
+find program=['gcc', 'cc'] paths=['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin', '/usr/games', '/usr/local/games'] var='CC' -> ['/usr/bin/gcc']
+find program=['ar'] paths=['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin', '/usr/games', '/usr/local/games'] var='AR' -> ['/usr/bin/ar']
+/usr/bin/gcc
+----------------------------------------
+Checking for program 'python'
+/usr/bin/python3
+find program=['python'] paths=['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin', '/usr/games', '/usr/local/games'] var='PYTHON' -> ['/usr/bin/python3']
+['/usr/bin/python3', '-c', 'import imp;print(imp.get_tag())']
+out: cpython-34
+
+['/usr/bin/python3', '-c', 'import sys\nfor x in sys.version_info: print(str(x))']
+out: 3
+4
+0
+final
+0
+
+['/usr/bin/python3', '-c', "from distutils.sysconfig import get_config_var, get_python_lib\n\nprint(repr(get_python_lib(standard_lib=0) or ''))"]
+out: '/usr/lib/python3/dist-packages'
+
+'/usr/lib/python3/dist-packages'
+
+['/usr/bin/python3', '-c', "from distutils.sysconfig import get_config_var, get_python_lib\n\nprint(repr(get_python_lib(plat_specific=1, standard_lib=0) or ''))"]
+out: '/usr/lib/python3/dist-packages'
+
+'/usr/lib/python3/dist-packages'
+
+----------------------------------------
+Checking for python version
+(3, 4, 0, 'final', 0)
+['/usr/bin/python3', '-c', "from distutils.sysconfig import get_config_var, get_python_lib\n\nprint(repr(get_config_var('prefix') or ''))\nprint(repr(get_config_var('SO') or ''))\nprint(repr(get_config_var('LDFLAGS') or ''))\nprint(repr(get_config_var('LIBDIR') or ''))\nprint(repr(get_config_var('LIBPL') or ''))\nprint(repr(get_config_var('INCLUDEPY') or ''))\nprint(repr(get_config_var('Py_ENABLE_SHARED') or ''))\nprint(repr(get_config_var('MACOSX_DEPLOYMENT_TARGET') or ''))\nprint(repr(get_config_var('LDSHARED') or ''))\nprint(repr(get_config_var('CFLAGS') or ''))\nprint(repr(get_config_var('LDVERSION') or ''))"]
+out: '/usr'
+'.cpython-34m.so'
+'-Wl,-Bsymbolic-functions -Wl,-z,relro'
+'/usr/lib'
+'/usr/lib/python3.4/config-3.4m-x86_64-linux-gnu'
+'/usr/include/python3.4m'
+1
+''
+'x86_64-linux-gnu-gcc -pthread -shared -Wl,-O1 -Wl,-Bsymbolic-functions -Wl,-Bsymbolic-functions -Wl,-z,relro'
+'-Wno-unused-result -Werror=declaration-after-statement -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -g -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security  -g -flto -fuse-linker-plugin'
+'3.4m'
+
+'/usr'
+'.cpython-34m.so'
+'-Wl,-Bsymbolic-functions -Wl,-z,relro'
+'/usr/lib'
+'/usr/lib/python3.4/config-3.4m-x86_64-linux-gnu'
+'/usr/include/python3.4m'
+1
+''
+'x86_64-linux-gnu-gcc -pthread -shared -Wl,-O1 -Wl,-Bsymbolic-functions -Wl,-Bsymbolic-functions -Wl,-z,relro'
+'-Wno-unused-result -Werror=declaration-after-statement -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -g -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security  -g -flto -fuse-linker-plugin'
+'3.4m'
+
+Configuration returned from ['/usr/bin/python3']:
+"prefix = '/usr'\nSO = '.cpython-34m.so'\nLDFLAGS = '-Wl,-Bsymbolic-functions -Wl,-z,relro'\nLIBDIR = '/usr/lib'\nLIBPL = '/usr/lib/python3.4/config-3.4m-x86_64-linux-gnu'\nINCLUDEPY = '/usr/include/python3.4m'\nPy_ENABLE_SHARED = 1\nMACOSX_DEPLOYMENT_TARGET = ''\nLDSHARED = 'x86_64-linux-gnu-gcc -pthread -shared -Wl,-O1 -Wl,-Bsymbolic-functions -Wl,-Bsymbolic-functions -Wl,-z,relro'\nCFLAGS = '-Wno-unused-result -Werror=declaration-after-statement -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -g -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security  -g -flto -fuse-linker-plugin'\nLDVERSION = '3.4m'"
+
+----------------------------------------
+python-config
+/usr/bin/python3-config
+find program=['/usr/bin/python3-config', 'python3.4-config', 'python-config-3.4', 'python3.4m-config'] paths=['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin', '/usr/games', '/usr/local/games'] var='PYTHON_CONFIG' -> ['/usr/bin/python3-config']
+------------------------------------------------------------------
+Asking python-config for pyembed '--cflags --libs --ldflags' flags
+['/usr/bin/python3-config', '--cflags', '--libs', '--ldflags']
+out: -I/usr/include/python3.4m -I/usr/include/python3.4m  -Wno-unused-result -Werror=declaration-after-statement -g -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security  -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes
+-lpthread -ldl  -lutil -lm  -lpython3.4m
+-L/usr/lib/python3.4/config-3.4m-x86_64-linux-gnu -L/usr/lib -lpthread -ldl  -lutil -lm  -lpython3.4m -Xlinker -export-dynamic -Wl,-O1 -Wl,-Bsymbolic-functions
+
+yes
+------------------------------------------------------------------
+Getting pyembed flags from python-config
+==>
+
+#include <Python.h>
+#ifdef __cplusplus
+extern "C" {
+#endif
+	void Py_Initialize(void);
+	void Py_Finalize(void);
+#ifdef __cplusplus
+}
+#endif
+int main(int argc, char **argv)
+{
+   (void)argc; (void)argv;
+   Py_Initialize();
+   Py_Finalize();
+   return 0;
+}
+
+<==
+[1/2] Compiling [32mbuild/.conf_check_516a18fd05380378ba21c305f58659aa/test.c[0m
+
+['/usr/bin/gcc', '-fstack-protector', '-fwrapv', '-I/usr/include/python3.4m', '-DPYTHONDIR="/usr/lib/python3/dist-packages"', '-DPYTHONARCHDIR="/usr/lib/python3/dist-packages"', '-DHAVE_PYEMBED=1', '-DNDEBUG', '../test.c', '-c', '-o', '/home/jeff/Documents/libraries/pysoy/build/.conf_check_516a18fd05380378ba21c305f58659aa/testbuild/test.c.1.o']
+[2/2] Linking [33mbuild/.conf_check_516a18fd05380378ba21c305f58659aa/testbuild/testprog[0m
+
+['/usr/bin/gcc', '-Xlinker', '-export-dynamic', '-Wl,-O1', '-Wl,-Bsymbolic-functions', 'test.c.1.o', '-o', '/home/jeff/Documents/libraries/pysoy/build/.conf_check_516a18fd05380378ba21c305f58659aa/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic', '-L/usr/lib/python3.4/config-3.4m-x86_64-linux-gnu', '-L/usr/lib', '-lpthread', '-ldl', '-lutil', '-lm', '-lpython3.4m']
+yes
+------------------------------------------------------------------
+Asking python-config for pyext '--cflags --libs --ldflags' flags
+['/usr/bin/python3-config', '--cflags', '--libs', '--ldflags']
+out: -I/usr/include/python3.4m -I/usr/include/python3.4m  -Wno-unused-result -Werror=declaration-after-statement -g -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security  -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes
+-lpthread -ldl  -lutil -lm  -lpython3.4m
+-L/usr/lib/python3.4/config-3.4m-x86_64-linux-gnu -L/usr/lib -lpthread -ldl  -lutil -lm  -lpython3.4m -Xlinker -export-dynamic -Wl,-O1 -Wl,-Bsymbolic-functions
+
+yes
+------------------------------------------------------------------
+Getting pyext flags from python-config
+==>
+
+#include <Python.h>
+#ifdef __cplusplus
+extern "C" {
+#endif
+	void Py_Initialize(void);
+	void Py_Finalize(void);
+#ifdef __cplusplus
+}
+#endif
+int main(int argc, char **argv)
+{
+   (void)argc; (void)argv;
+   Py_Initialize();
+   Py_Finalize();
+   return 0;
+}
+
+<==
+[1/2] Compiling [32mbuild/.conf_check_72aec95f9e9db537943960e109035d98/test.c[0m
+
+['/usr/bin/gcc', '-fPIC', '-fstack-protector', '-fwrapv', '-I/usr/include/python3.4m', '-DPYTHONDIR="/usr/lib/python3/dist-packages"', '-DPYTHONARCHDIR="/usr/lib/python3/dist-packages"', '-DHAVE_PYEMBED=1', '-DHAVE_PYEXT=1', '-DNDEBUG', '../test.c', '-c', '-o', '/home/jeff/Documents/libraries/pysoy/build/.conf_check_72aec95f9e9db537943960e109035d98/testbuild/test.c.1.o']
+[2/2] Linking [33mbuild/.conf_check_72aec95f9e9db537943960e109035d98/testbuild/testprog.cpython-34m.so[0m
+
+['/usr/bin/gcc', '-shared', '-Xlinker', '-export-dynamic', '-Wl,-O1', '-Wl,-Bsymbolic-functions', 'test.c.1.o', '-o', '/home/jeff/Documents/libraries/pysoy/build/.conf_check_72aec95f9e9db537943960e109035d98/testbuild/testprog.cpython-34m.so', '-Wl,-Bstatic', '-Wl,-Bdynamic', '-L/usr/lib/python3.4/config-3.4m-x86_64-linux-gnu', '-L/usr/lib', '-lpthread', '-ldl', '-lutil', '-lm', '-lpython3.4m']
+yes
+------------------------------------------------------------------
+Checking for program 'pkg-config'
+/usr/bin/pkg-config
+find program=['pkg-config'] paths=['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin', '/usr/games', '/usr/local/games'] var='PKGCONFIG' -> ['/usr/bin/pkg-config']
+------------------------------------------------------------------
+Checking for 'soy-1'
+['/usr/bin/pkg-config', '--cflags', '--libs', 'soy-1']
+out: -pthread -I/usr/local/include -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/gee-0.8 -I/usr/include/dbus-1.0 -I/usr/include/librsvg-2.0 -I/usr/include/nice -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/cairo -I/usr/include/libpng12 -I/usr/include/pixman-1 -I/usr/include/freetype2 -I/usr/include/loudmouth-1.0  -Wl,-export-dynamic -pthread -L/usr/local/lib -lsoy -lgee-0.8 -ldbus-glib-1 -lrsvg-2 -lm -lloudmouth-1 -lidn -lnice -lgthread-2.0 -lGLESv2 -ldbus-1 -lgio-2.0 -lgdk_pixbuf-2.0 -lcairo -lgobject-2.0 -lglib-2.0  
+
+yes

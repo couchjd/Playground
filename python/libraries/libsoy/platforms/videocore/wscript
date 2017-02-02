@@ -1,0 +1,32 @@
+# encoding: utf-8
+
+
+def configure(conf):
+    conf.check_cfg(package='egl', uselib_store='EGL',
+                   mandatory=True, args='--cflags --libs')
+    conf.check_cfg(package='glesv2', uselib_store='GL',
+                   mandatory=True, args='--cflags --libs')
+    conf.check_cfg(package='bcm_host', uselib_store='VIDEOCORE',
+                   mandatory=True, args='--cflags --libs')
+    conf.env['GLES_AVAILABLE'] = 1
+
+
+def build(bld):
+    bld(features     = 'c cshlib',
+        name         = 'soy-videocore-1',
+        target       = 'soy-videocore',
+        pkg_name     = 'soy-videocore',
+        use          = 'soy-1',
+        source       = bld.path.ant_glob('*.gs'),
+        uselib       = ['EGL', 'SOY', 'VIDEOCORE', 'GEE', 'LM', 'NICE',
+                        'DBUS_GLIB', 'RSVG'],
+        packages     = ['config', 'gles-2.0', 'gee-0.8', 'cairo', 'gdk-2.0',
+                        'librsvg-2.0', 'ode-0.11', 'posix','bluez',
+                        'loudmouth-1.0', 'nice','libusb','dbus-glib-1',
+                        'egl', 'soy', 'videocore'],
+        vapi_dirs    = ['../../vapi', '../../build/src'],
+        includes     = ['../../include'],
+        cflags       = ['-include', 'config.h', '-DGL_GLEXT_PROTOTYPES', '-g'],
+        vala_defines = bld.env.VALA_DEFINES
+    )
+

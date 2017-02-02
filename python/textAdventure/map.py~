@@ -1,0 +1,8 @@
+from rooms import *
+
+class Map:
+  def init(self, xMax, yMax):
+    self.fillMap(xMax, yMax)
+  
+  def fillMap(self, xMax, yMax):
+    

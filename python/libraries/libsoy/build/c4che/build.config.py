@@ -1,0 +1,2 @@
+version = 0x1080000
+tools = [{'tooldir': None, 'tool': 'ar', 'funs': None}, {'tooldir': None, 'tool': 'c', 'funs': None}, {'tooldir': None, 'tool': 'gcc', 'funs': None}, {'tooldir': None, 'tool': 'compiler_c', 'funs': None}, {'tooldir': None, 'tool': 'gnu_dirs', 'funs': None}, {'tooldir': None, 'tool': 'genie', 'funs': None}, {'tooldir': None, 'tool': 'glsl', 'funs': None}, {'tooldir': None, 'tool': 'waf_unit_test', 'funs': None}]

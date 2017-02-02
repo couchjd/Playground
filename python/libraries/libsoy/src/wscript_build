@@ -1,0 +1,43 @@
+# encoding: utf-8
+source = ['init.c'] + bld.path.ant_glob('**/*.gs') + bld.path.ant_glob('**/*.glsl?')
+uselib = ['DBUS_GLIB', 'GEE', 'RSVG', 'LM', 'NICE', 'GL', 'ODE', 'PIXBUF']
+packages = ['config', 'gee-0.8', 'dbus-glib-1',
+            'gles-2.0', 'cairo', 'gdk-pixbuf-2.0', 'librsvg-2.0',
+            'ode-0.11', 'posix', 'loudmouth-1.0', 'nice','libusb']
+
+if bld.env["PLATFORM_TYPE"] == "android" or bld.env["PLATFORM_TYPE"] == "windows":
+    bld.read_stlib('gio-2.0', paths=[bld.env.LIB_PATH])
+    bld.read_stlib('glib-2.0', paths=[bld.env.LIB_PATH])
+    bld.read_stlib('gmodule-2.0', paths=[bld.env.LIB_PATH])
+    bld.read_stlib('gthread-2.0', paths=[bld.env.LIB_PATH])
+    use = ["gio-2.0", "glib-2.0", "gmodule-2.0", "gthread-2.0"]
+    include = ["../include", conf.env.INCLUDE_PATH]
+    bld(
+        features     = 'c cshlib',
+        name         = 'soy-1',
+        target       = 'soy',
+        pkg_name     = 'soy',
+        use          = use,
+        packages     = packages,
+        vapi_dirs    = '../vapi',
+        includes     = include,
+        cflags       = ['-include', 'config.h', '-DGL_GLEXT_PROTOTYPES', '-g'],
+        source       = source,
+        vala_defines = bld.env.VALA_DEFINES
+    )
+
+else:
+    bld.env.append_value('VALAFLAGS','-g')
+    bld(
+        features     = 'c cshlib',
+        name         = 'soy-1',
+        target       = 'soy',
+        pkg_name     = 'soy',
+        uselib       = uselib,
+        packages     = packages,
+        vapi_dirs    = '../vapi',
+        includes     = '../include',
+        cflags       = ['-include', 'config.h', '-DGL_GLEXT_PROTOTYPES', '-g'],
+        source       = source,
+        vala_defines = bld.env.VALA_DEFINES
+    )

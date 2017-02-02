@@ -1,0 +1,11 @@
+syntax:glob
+build
+.waf*
+waf*
+__pycache__
+genie.pyc
+genie.pyo
+glsl.pyc
+.lock-w*
+*.orig
+*.backup

@@ -1,0 +1,176 @@
+# encoding: utf-8
+
+NAME = 'libsoy'
+DATE = 'unreleased'
+VERSION = '1.0_beta3'
+WEBSITE = 'http://www.pysoy.org/'
+LICENSE = '''
+    Copyright (C) 2006-2014 Copyleft Games Group
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+'''
+
+top = '.'
+out = 'build'
+
+def add_static_library(conf, name, path, includes):
+    conf.env["STLIB_" + name] = [name]
+    conf.env["STLIBPATH_" + name] = [path]
+    conf.env["INCLUDES_" + name] = [includes]
+
+def options(opt) :
+    opt.load('compiler_c')
+
+    opt.add_option('--vala-target-glib', default='2.32',
+                   dest='vala_target_glib', metavar='MAJOR.MINOR',
+                   help='Target version of glib for GObject code generation')
+
+    # Unit testing
+    opt.add_option('--runtests', dest='runTests', default=False, action='store_true', help='run unit tests found in tests/')
+
+    opt.add_option("--platform", default=None,
+                   dest="platform", help="Specify a certain platform")
+
+    opt.load('waf_unit_test')
+
+def configure(conf) :
+    # Check for a C compiler, valac
+    conf.load('compiler_c genie glsl')
+
+    # Unit testing
+    conf.load('waf_unit_test')
+
+    # Write configuration to disk
+    conf.define('SOY_NAME', NAME)
+    conf.define('SOY_DATE', DATE)
+    conf.define('SOY_VERSION', VERSION)
+    conf.define('SOY_WEBSITE', WEBSITE)
+    conf.define('SOY_LICENSE', LICENSE.replace('\n', '\\n')) # waf bug
+
+    # Set platform
+    import platform
+    platform_type = ''
+    if 'armv6l' in (platform.machine().lower() or platform.processor().lower()):
+        with open('/proc/cpuinfo', 'r') as cpuinfo:
+            if 'BCM2708' in cpuinfo.read():
+                platform_type = 'videocore'
+            else:
+                platform_type = 'armv6l';
+    elif platform.system().lower().startswith(('linux', 'gnu/linux')): platform_type = 'x11'
+    elif platform.system().lower().startswith('windows'): platform_type = 'windows'
+    conf.env['PLATFORM_TYPE'] = platform_type
+
+    if platform_type == 'x11':
+    	conf.recurse('platforms/x11')
+
+    elif platform_type == 'videocore':
+        conf.recurse('platforms/videocore')
+        '''
+        conf.check_cfg(package='egl', uselib_store='EGL',
+                       mandatory=True, args='--cflags --libs')
+
+        conf.check_cfg(package='videocore', uselib_store='VIDEOCORE',
+                       mandatory=True, args='--cflags --libs')
+        '''
+
+    elif platform_type == 'windows':
+        conf.check_cfg(package='gl', uselib_store='GL', mandatory=True,
+                       args='--cflags --libs')
+
+    # Copy necessary configuration options into a variable for Vala
+    from platform import system; conf.env[system().upper()] = 1
+    conf.env.VALA_DEFINES = [
+        system().upper(),
+        'GLES_AVAILABLE' if conf.env['GLES_AVAILABLE'] else '',
+        'dSINGLE' if conf.is_defined('dSINGLE') else 'dDOUBLE',
+        'PLATFORM_X11' if platform_type == 'x11' else '',
+    ]
+
+    if conf.options.platform != None:
+        conf.env["PLATFORM_TYPE"] = platform_type = conf.options.platform
+
+    # set env variables for static library downloading
+    conf.env.LIBRARY_DOWNLOAD = conf.find_file('library_download.py', [conf.path.abspath()])
+
+    if platform_type == "android" or platform_type == "windows":
+        lib_path = conf.path.find_or_declare("static/" + conf.env["PLATFORM_TYPE"])
+
+        download_path = lib_path.find_or_declare("download")
+        download_url = "http://mirror.pysoy.org/%s/glib-2.0.tar.xz" % conf.env["PLATFORM_TYPE"]
+
+        conf.env.UNPACK_PATH = lib_path.abspath()
+        conf.env.LIB_PATH = conf.env.UNPACK_PATH + "/lib"
+        conf.env.INCLUDE_PATH = conf.env.UNPACK_PATH + "/include"
+        conf.env.DOWNLOAD_PATH = download_path.abspath()
+        conf.env.DOWNLOAD_URL = download_url
+
+        import subprocess
+        subprocess.call(["python3", conf.env.LIBRARY_DOWNLOAD, download_url, download_path.abspath(), lib_path.abspath()])
+
+        add_library = lambda x: add_static_library(conf, x, conf.env.LIB_PATH, conf.env.INCLUDE_PATH)
+
+        add_library("gio-2.0")
+        add_library("glib-2.0")
+        add_library("gmodule-2.0")
+        add_library("gthread-2.0")
+
+    else:
+        if platform_type == 'gtk':
+            conf.check_cfg(package='gtk+-3.0', atleast_version='3.0',
+                   uselib_store='GTK', mandatory=True, args='--cflags --libs')
+                   
+        conf.check_cfg(package='dbus-glib-1', uselib_store='DBUS_GLIB',
+                       mandatory=True, args='--cflags --libs')
+        conf.check_cfg(package='gmodule-2.0', atleast_version='2.0',
+                       uselib_store='GMODULE', mandatory=True, args='--cflags --libs')
+        conf.check_cfg(package='gee-0.8', atleast_version='0.8.0',
+                       uselib_store='GEE', mandatory=True, args='--cflags --libs')
+        conf.check_cfg(package='gdk-pixbuf-2.0', atleast_version='2.0',
+                       uselib_store='PIXBUF', mandatory=True, args='--cflags --libs')               
+        conf.check_cfg(package='librsvg-2.0', atleast_version='2.36.0',
+                       uselib_store='RSVG', mandatory=True, args='--cflags --libs')
+        conf.check_cfg(package='loudmouth-1.0', atleast_version='1.0',
+                       uselib_store='LM', mandatory=True, args='--cflags --libs')
+        conf.check_cfg(package='nice', atleast_version='0.1', uselib_store='NICE',
+                       mandatory=True, args='--cflags --libs')
+        conf.check_cfg(package='ode', uselib_store='ODE', mandatory=True,
+                       min_version='0.11.1', args='--cflags --libs')
+        # Record whether ODE was compiled with single or double precision
+        conf.define(('dSINGLE','dDOUBLE')['dDOUBLE' in conf.env['DEFINES_ODE']], 1)
+
+    conf.write_config_header ('config.h')
+
+def build(bld):
+    # Defines for .pc
+    bld.define('PACKAGE', NAME)
+    bld.define('VERSION', VERSION)
+
+    # Install config.h in /usr/local/include/soy-1
+    bld.install_files('${PREFIX}/include/soy-1', out + '/config.h')
+    bld.recurse('src misc include')
+
+    if bld.env['PLATFORM_TYPE'] == 'x11':
+        bld.recurse('platforms/x11')
+     
+    if bld.env['PLATFORM_TYPE']  == 'gtk':
+        bld.recurse('platforms/gtk')
+
+    if bld.env['PLATFORM_TYPE'] == 'videocore':
+        bld.recurse('platforms/videocore')
+
+    # Unit testing
+    if bld.options.runTests:
+        bld.recurse('tests')
+        from waflib.Tools import waf_unit_test
+        bld.add_post_fun(waf_unit_test.summary)
